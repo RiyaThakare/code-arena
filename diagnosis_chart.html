@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagnosis Chart</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background: #f6f9fc;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 28px;
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      margin: 20px auto;
+      max-width: 700px;
+    }
+
+    .card h2 {
+      font-size: 18px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #diagnosisChart {
+      margin: 0 auto;
+      display: block;
+    }
+
+    .back-link {
+      text-decoration: none;
+      color: #333;
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+
+    .patient-info p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="Code_arena3.html" class="back-link">← Back to Analysis</a>
+
+  <h1>Diagnosis Overview</h1>
+  <p class="subtitle">Bar chart of detected anomalies from the AI analysis</p>
+
+  <div class="card patient-info" id="patientInfo">
+    <h2>👤 Patient Information</h2>
+    <p><strong>Name:</strong> Loading...</p>
+    <p><strong>Age:</strong> Loading...</p>
+    <p><strong>Body Part:</strong> Loading...</p>
+    <p><strong>Initial Diagnosis:</strong> Loading...</p>
+  </div>
+
+  <div class="card">
+    <h2>📊 Diagnosis Chart</h2>
+    <canvas id="diagnosisChart" width="400" height="250"></canvas>
+  </div>
+
+<script>
+  // Load patient info from localStorage
+  const name = localStorage.getItem("patientName") || "N/A";
+  const age = localStorage.getItem("patientAge") || "N/A";
+  const bodyPart = localStorage.getItem("patientBodyPart") || "N/A";
+  const diagnosis = localStorage.getItem("patientDiagnosis") || "N/A";
+  const patientId = localStorage.getItem("patientId") || "0"; // make sure you store patient_id
+
+  document.getElementById("patientInfo").innerHTML = `
+    <h2>👤 Patient Information</h2>
+    <p><strong>Name:</strong> ${name}</p>
+    <p><strong>Age:</strong> ${age}</p>
+    <p><strong>Body Part:</strong> ${bodyPart}</p>
+    <p><strong>Initial Diagnosis:</strong> ${diagnosis}</p>
+  `;
+
+  // Fetch diagnosis counts from backend
+  fetch(`/analyze/${patientId}`, { method: 'POST' })
+    .then(res => res.json())
+    .then(data => {
+      const counts = data.diagnosis_counts;
+
+      const ctx = document.getElementById('diagnosisChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: Object.keys(counts),
+          datasets: [{
+            label: '# of Detections',
+            data: Object.values(counts),
+            backgroundColor: ['#ff6384','#36a2eb','#ffce56']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: true, position: 'top' }
+          },
+          scales: { y: { beginAtZero: true, ticks: { precision:0 } } }
+        }
+      });
+    })
+    .catch(err => {
+      console.error("Error fetching diagnosis data:", err);
+      alert("Failed to load diagnosis data.");
+    });
+</script>
+
+</body>
+</html>

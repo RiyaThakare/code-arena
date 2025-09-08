@@ -2,180 +2,203 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Information</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f8fafc;
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Information</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f8fafc;
+      margin: 0;
+      padding: 0;
+    }
 
-        .container {
-            max-width: 1000px;
-            margin: 30px auto;
-            padding: 20px;
-        }
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 20px;
+    }
 
-        a.back {
-            text-decoration: none;
-            color: #374151;
-            font-size: 14px;
-            display: inline-block;
-            margin-bottom: 20px;
-        }
+    a.back {
+      text-decoration: none;
+      color: #374151;
+      font-size: 14px;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
 
-        h1 {
-            font-size: 28px;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 5px;
-        }
+    h1 {
+      font-size: 28px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 5px;
+    }
 
-        p.subtitle {
-            text-align: center;
-            color: #6b7280;
-            margin-bottom: 30px;
-        }
+    p.subtitle {
+      text-align: center;
+      color: #6b7280;
+      margin-bottom: 30px;
+    }
 
-        .form-section {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
+    .form-section {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
 
-        .card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-            padding: 20px;
-            flex: 1;
-            min-width: 300px;
-        }
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      padding: 20px;
+      flex: 1;
+      min-width: 300px;
+    }
 
-        .card h2 {
-            font-size: 18px;
-            margin-bottom: 15px;
-            color: #1f2937;
-        }
+    .card h2 {
+      font-size: 18px;
+      margin-bottom: 15px;
+      color: #1f2937;
+    }
 
-        label {
-            display: block;
-            font-size: 14px;
-            margin-bottom: 6px;
-            color: #374151;
-        }
+    label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: #374151;
+    }
 
-        input,
-        select,
-        textarea {
-            width: 95%;
-            /* ⬅️ Reduced from 100% */
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #d1d5db;
-            margin-bottom: 15px;
-            font-size: 14px;
-        }
+    input,
+    select,
+    textarea {
+      width: 95%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
 
-        textarea {
-            min-height: 80px;
-            resize: vertical;
-        }
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
 
-        .upload-box {
-            border: 2px dashed #cbd5e1;
-            border-radius: 12px;
-            padding: 30px;
-            text-align: center;
-            color: #6b7280;
-            cursor: pointer;
-        }
+    .upload-box {
+      border: 2px dashed #cbd5e1;
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+      color: #6b7280;
+      cursor: pointer;
+      position: relative;
+    }
 
-        .upload-box:hover {
-            background: #f1f5f9;
-        }
+    .upload-box input {
+      display: none;
+    }
 
-        .upload-box input {
-            display: none;
-        }
+    .upload-box:hover {
+      background: #f1f5f9;
+    }
 
-        .btn {
-            display: block;
-            width: 250px;
-            margin: 30px auto 0;
-            padding: 14px;
-            text-align: center;
-            background: linear-gradient(to right, #60a5fa, #3b82f6);
-            color: white;
-            font-size: 16px;
-            font-weight: 500;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: opacity 0.2s ease;
-        }
+    .btn {
+      display: block;
+      width: 250px;
+      margin: 30px auto 0;
+      padding: 14px;
+      text-align: center;
+      background: linear-gradient(to right, #60a5fa, #3b82f6);
+      color: white;
+      font-size: 16px;
+      font-weight: 500;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
 
-        .btn:hover {
-            opacity: 0.9;
-        }
-    </style>
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    #preview {
+      margin-top: 15px;
+      max-width: 100%;
+      border-radius: 8px;
+    }
+  </style>
 </head>
 
 <body>
-    <div class="container">
-        <a href="#" class="back">← Back to Login</a>
+  <div class="container">
+    <a href="Code_arena.html" class="back">← Back to Login</a>
 
-        <h1>Patient Information</h1>
-        <p class="subtitle">Enter patient details and upload X-ray for analysis</p>
+    <h1>Patient Information</h1>
+    <p class="subtitle">Enter patient details and upload X-ray for analysis</p>
 
-        <div class="form-section">
-            <!-- Patient Details -->
-            <div class="card">
-                <h2>🧍 Patient Details</h2>
-                <form>
-                    <label for="fullname">Full Name</label>
-                    <input type="text" id="fullname" placeholder="Enter patient's full name" required>
+    <div class="form-section">
+      <!-- Patient Details -->
+      <div class="card">
+        <h2>🧍 Patient Details</h2>
+        <form>
+          <label for="fullname">Full Name</label>
+          <input type="text" id="fullname" placeholder="Enter patient's full name" required>
 
-                    <label for="age">Age</label>
-                    <input type="number" id="age" placeholder="Patient age" required min="0">
+          <label for="age">Age</label>
+          <input type="number" id="age" placeholder="Patient age" required min="0">
 
-                    <label for="bodypart">Body Part X-rayed</label>
-                    <input list="bodyparts" id="bodypart" name="bodypart" placeholder="Select or type body part"
-                        required>
+          <label for="bodypart">Body Part X-rayed</label>
+          <input list="bodyparts" id="bodypart" name="bodypart" placeholder="Select or type body part" required>
+          <datalist id="bodyparts">
+            <option value="Head">
+            <option value="Chest">
+            <option value="Arm">
+            <option value="Leg">
+            <option value="Spine">
+          </datalist>
 
-                    <datalist id="bodyparts">
-                        <option value="Head">
-                        <option value="Chest">
-                        <option value="Arm">
-                        <option value="Leg">
-                        <option value="Spine">
-                    </datalist>
+          <label for="notes">Initial Diagnosis/Notes (Optional)</label>
+          <textarea id="notes" placeholder="Enter preliminary diagnosis or relevant medical notes..."></textarea>
+        </form>
+      </div>
 
-
-                    <label for="notes">Initial Diagnosis/Notes (Optional)</label>
-                    <textarea id="notes"
-                        placeholder="Enter preliminary diagnosis or relevant medical notes..."></textarea>
-                </form>
-            </div>
-
-            <!-- X-ray Upload -->
-            <div class="card">
-                <h2>📤 X-ray Upload</h2>
-                <label class="upload-box">
-                    <input type="file" accept=".jpg,.png,.dcm" />
-                    <p>Drop X-ray image here<br>or click to browse files</p>
-                    <button type="button">Browse Files</button>
-                    <p style="font-size:12px; margin-top:10px;">Supports: JPG, PNG, DICOM • Max size: 10MB</p>
-                </label>
-            </div>
-        </div>
-
-        <button class="btn">Continue to Analysis</button>
+      <!-- X-ray Upload -->
+      <div class="card">
+        <h2>📤 X-ray Upload</h2>
+        <label class="upload-box">
+          <input type="file" id="xrayUpload" accept="image/*" />
+          <p>Drop X-ray image here<br>or click to browse files</p>
+        </label>
+      
+      </div>
     </div>
+
+    <button class="btn" onclick="goToAnalysis()">Continue to Analysis</button>
+  </div>
+
+  <script>
+    // Handle X-ray upload
+    document.getElementById('xrayUpload').addEventListener('change', function (e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (event) {
+          // Save image in localStorage
+          localStorage.setItem('xrayImage', event.target.result);
+          // Show preview
+          document.getElementById('preview').src = event.target.result;
+        }
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Continue button -> Redirect to analysis page
+    function goToAnalysis() {
+      window.location.href = "Code_arena3.html"; // change if your analysis page is Code_arena4.html
+    }
+  </script>
 </body>
 
 </html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>X-ray Analysis</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f8fafc;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    a.back {
+      text-decoration: none;
+      color: #374151;
+      font-size: 14px;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 5px;
+    }
+
+    p.subtitle {
+      text-align: center;
+      color: #6b7280;
+      margin-bottom: 30px;
+    }
+
+    .analysis-section {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      padding: 20px;
+      flex: 1;
+      min-width: 300px;
+      text-align: left;
+    }
+
+    .card h2 {
+      font-size: 18px;
+      margin-bottom: 15px;
+      color: #1f2937;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-item {
+      margin-bottom: 15px;
+    }
+
+    .info-item strong {
+      display: block;
+      font-size: 14px;
+      color: #374151;
+      margin-bottom: 4px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 4px 10px;
+      background: #f1f5f9;
+      border-radius: 20px;
+      font-size: 13px;
+      color: #374151;
+    }
+
+    /* Upload preview */
+    .upload-preview {
+      border: 2px dashed #cbd5e1;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      color: #6b7280;
+      margin-bottom: 15px;
+    }
+
+    .upload-preview img {
+      max-width: 100%;
+      max-height: 250px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .file-name {
+      font-size: 14px;
+      color: #1f2937;
+    }
+
+    .file-size {
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      text-align: center;
+      background: linear-gradient(to right, #60a5fa, #3b82f6);
+      color: white;
+      font-size: 16px;
+      font-weight: 500;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+      margin-top: 10px;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+  a.download-btn {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 2px;
+      background: #4da6ff;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+    a.download-btn:hover {
+      background: #1a8cff;
+    }
+
+    /* Disclaimer */
+    .disclaimer {
+      margin-top: 30px;
+      padding: 15px 20px;
+      background: #fffbeb;
+      border: 1px solid #facc15;
+      border-radius: 8px;
+      font-size: 14px;
+      color: #92400e;
+    }
+
+    .disclaimer strong {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="#" class="back">← Back to Form</a>
+
+    <h1>X-ray Analysis</h1>
+    <p class="subtitle">AI-powered medical imaging analysis</p>
+
+    <div class="analysis-section">
+      <!-- Patient Info -->
+      <div class="card">
+        <h2>🧍 Patient Information</h2>
+        <div class="info-item">
+          <strong>Name</strong>
+          <p id="patientName">ge</p>
+        </div>
+        <div class="info-item">
+          <strong>Age</strong>
+          <p id="patientAge">8 years</p>
+        </div>
+        <div class="info-item">
+          <strong>Body Part</strong>
+          <span class="tag" id="patientBodyPart">Skull</span>
+        </div>
+        <div class="info-item">
+          <strong>Initial Diagnosis</strong>
+          <p id="patientDiagnosis">rege</p>
+        </div>
+      </div>
+
+      <!-- X-ray Image -->
+      <div class="card">
+        <h2>🖼️ X-ray Image</h2>
+        <div class="upload-preview" id="xrayBox">
+          <img id="xrayImage" alt="Uploaded X-ray">
+          <div class="file-name" id="fileName">pelvis.jpg</div>
+          <div class="file-size" id="fileSize">0.05 MB</div>
+        </div>
+        <a id="downloadBtn" class="btn download-btn" download>⬇ Download Image</a>
+      </div>
+
+      <!-- AI Analysis -->
+      <div class="card">
+        <h2>🧠 AI Analysis</h2>
+        <div style="text-align: center; margin: 30px 0;">
+          <img src="https://img.icons8.com/ios-filled/50/3b82f6/flash-on.png" alt="AI Icon" style="width:50px;">
+          <p style="margin-top:10px; font-size:16px; font-weight:500;">Ready for Analysis</p>
+          <p style="font-size:13px; color:#6b7280; margin-top:5px;">
+            Click below to start the AI-powered analysis of the uploaded X-ray image.
+          </p>
+        </div>
+        <button class="btn">🧠 Start Analysis</button>
+      </div>
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="disclaimer">
+      <strong>Important:</strong> This AI analysis is for reference only and should not replace professional medical diagnosis. 
+      Always consult with a qualified radiologist or physician for final interpretation.
+    </div>
+  </div>
+
+  <script>
+    // Simulated example: In real use, you'd pass this from the form page
+    const uploadedFile = {
+      name: "pelvis.jpg",
+      size: 52428, // ~0.05 MB
+      url: "https://via.placeholder.com/400x250.png?text=X-ray+Image" // demo image
+    };
+
+    // Show the uploaded image
+    const xrayImage = document.getElementById("xrayImage");
+    const fileName = document.getElementById("fileName");
+    const fileSize = document.getElementById("fileSize");
+    const downloadBtn = document.getElementById("downloadBtn");
+
+    xrayImage.src = uploadedFile.url;
+    fileName.textContent = uploadedFile.name;
+    fileSize.textContent = (uploadedFile.size / (1024 * 1024)).toFixed(2) + " MB";
+    downloadBtn.href = uploadedFile.url; // set download link
+    downloadBtn.setAttribute("download", uploadedFile.name);
+  </script>
+</body>
+</html>

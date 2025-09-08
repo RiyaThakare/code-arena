@@ -1,6 +1,6 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,13 +12,11 @@
       margin: 0;
       padding: 0;
     }
-
     .container {
       max-width: 1000px;
       margin: 30px auto;
       padding: 20px;
     }
-
     a.back {
       text-decoration: none;
       color: #374151;
@@ -26,27 +24,23 @@
       display: inline-block;
       margin-bottom: 20px;
     }
-
     h1 {
       font-size: 28px;
       font-weight: bold;
       text-align: center;
       margin-bottom: 5px;
     }
-
     p.subtitle {
       text-align: center;
       color: #6b7280;
       margin-bottom: 30px;
     }
-
     .form-section {
       display: flex;
       gap: 20px;
       flex-wrap: wrap;
       justify-content: center;
     }
-
     .card {
       background: white;
       border-radius: 12px;
@@ -55,23 +49,18 @@
       flex: 1;
       min-width: 300px;
     }
-
     .card h2 {
       font-size: 18px;
       margin-bottom: 15px;
       color: #1f2937;
     }
-
     label {
       display: block;
       font-size: 14px;
       margin-bottom: 6px;
       color: #374151;
     }
-
-    input,
-    select,
-    textarea {
+    input, select, textarea {
       width: 95%;
       padding: 10px;
       border-radius: 8px;
@@ -79,12 +68,10 @@
       margin-bottom: 15px;
       font-size: 14px;
     }
-
     textarea {
       min-height: 80px;
       resize: vertical;
     }
-
     .upload-box {
       border: 2px dashed #cbd5e1;
       border-radius: 12px;
@@ -94,15 +81,13 @@
       cursor: pointer;
       position: relative;
     }
-
-    .upload-box input {
-      display: none;
+    .upload-box img {
+      max-width: 100%;
+      max-height: 200px;
+      border-radius: 8px;
+      margin-top: 10px;
+      object-fit: contain;
     }
-
-    .upload-box:hover {
-      background: #f1f5f9;
-    }
-
     .btn {
       display: block;
       width: 250px;
@@ -118,19 +103,17 @@
       cursor: pointer;
       transition: opacity 0.2s ease;
     }
-
     .btn:hover {
       opacity: 0.9;
     }
-
     #preview {
+      display: block;
       margin-top: 15px;
-      max-width: 100%;
+      max-width: 200px;
       border-radius: 8px;
     }
   </style>
 </head>
-
 <body>
   <div class="container">
     <a href="Code_arena.html" class="back">← Back to Login</a>
@@ -142,7 +125,7 @@
       <!-- Patient Details -->
       <div class="card">
         <h2>🧍 Patient Details</h2>
-        <form>
+        <form id="patientForm">
           <label for="fullname">Full Name</label>
           <input type="text" id="fullname" placeholder="Enter patient's full name" required>
 
@@ -167,38 +150,53 @@
       <!-- X-ray Upload -->
       <div class="card">
         <h2>📤 X-ray Upload</h2>
-        <label class="upload-box">
-          <input type="file" id="xrayUpload" accept="image/*" />
-          <p>Drop X-ray image here<br>or click to browse files</p>
+        <label class="upload-box" id="uploadBox">
+          <input type="file" id="xrayUpload" accept="image/*">
+          <p id="uploadText">Drop X-ray image here<br>or click to browse files</p>
+          <img id="preview" alt="Preview" style="display:none;">
         </label>
-      
+
+        <!-- ✅ Added id="continueBtn" -->
+        <button id="continueBtn" type="button" class="btn btn-gradient">
+          Continue to Analysis
+        </button>
       </div>
     </div>
-
-    <button class="btn" onclick="goToAnalysis()">Continue to Analysis</button>
   </div>
 
-  <script>
-    // Handle X-ray upload
-    document.getElementById('xrayUpload').addEventListener('change', function (e) {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function (event) {
-          // Save image in localStorage
-          localStorage.setItem('xrayImage', event.target.result);
-          // Show preview
-          document.getElementById('preview').src = event.target.result;
-        }
-        reader.readAsDataURL(file);
+<script>
+  // Save uploaded image
+  document.getElementById('xrayUpload').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        localStorage.setItem('xrayImage', event.target.result);
+        localStorage.setItem('xrayFileName', file.name);
+        localStorage.setItem('xrayFileSize', (file.size / 1024).toFixed(1) + " KB");
+
+        document.getElementById('preview').src = event.target.result;
+        document.getElementById('preview').style.display = "block";
+        document.getElementById('uploadText').style.display = "none";
       }
-    });
-
-    // Continue button -> Redirect to analysis page
-    function goToAnalysis() {
-      window.location.href = "Code_arena3.html"; // change if your analysis page is Code_arena4.html
+      reader.readAsDataURL(file);
     }
-  </script>
-</body>
+  });
 
+  // ✅ Save patient info + redirect
+  document.getElementById("continueBtn").addEventListener("click", function () {
+    const name = document.getElementById("fullname").value.trim();
+    const age = document.getElementById("age").value.trim();
+    const bodyPart = document.getElementById("bodypart").value.trim();
+    const diagnosis = document.getElementById("notes").value.trim();
+
+    localStorage.setItem("patientName", name);
+    localStorage.setItem("patientAge", age);
+    localStorage.setItem("patientBodyPart", bodyPart);
+    localStorage.setItem("patientDiagnosis", diagnosis);
+
+    window.location.href = "Code_arena3.html"; // analysis page
+  });
+</script>
+</body>
 </html>

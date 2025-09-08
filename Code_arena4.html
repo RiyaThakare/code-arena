@@ -245,10 +245,23 @@
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    const name = localStorage.getItem("patientName") || "N/A";
-    const age = localStorage.getItem("patientAge") || "N/A";
-    const bodyPart = localStorage.getItem("patientBodyPart") || "N/A";
-    const diagnosis = localStorage.getItem("patientDiagnosis") || "N/A";
+    
+    document.querySelector(".btn").addEventListener("click", function () {
+    // Get values from form fields
+    const name = document.getElementById("fullname").value;
+    const age = document.getElementById("age").value;
+    const bodyPart = document.getElementById("bodypart").value;
+    const diagnosis = document.getElementById("notes").value;
+
+    // Save to localStorage
+    localStorage.setItem("patientName", name);
+    localStorage.setItem("patientAge", age);
+    localStorage.setItem("patientBodyPart", bodyPart);
+    localStorage.setItem("patientDiagnosis", diagnosis);
+
+    // Redirect to analysis page
+    window.location.href = "Code_arena3.html";
+  });
 
     doc.setFont("helvetica", "bold");
     doc.setFontSize(16);
@@ -284,4 +297,6 @@
 
 </body>
 </html>
+
+
 

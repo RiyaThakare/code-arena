@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Results</title>
+</head>
+<body>
+  <h1>Analysis Results</h1>
+  <h2>Uploaded X-Ray</h2>
+  <img src="{{ image_path }}" width="400">
+
+  <h2>Annotated X-Ray</h2>
+  <img src="{{ annotated_image }}" width="400">
+
+  <h2>Preliminary Diagnosis</h2>
+  <ul>
+    {% for d in diagnosis %}
+      <li>{{ d }}</li>
+    {% endfor %}
+  </ul>
+</body>
+</html>

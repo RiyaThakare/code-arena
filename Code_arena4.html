@@ -105,48 +105,47 @@
     li {
       margin-bottom: 6px;
     }
-    /* Container for disclaimer + button */
-.disclaimer-section {
-  text-align: center; /* Centers button */
-  margin-top: 20px;
-}
 
-/* Share button styling */
-.share-btn {
-  background: linear-gradient(90deg, #4facfe, #00f2fe);
-  color: white;
-  font-size: 16px;
-  font-weight: 500;
-  padding: 12px 24px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-bottom: 15px; /* Space between button & disclaimer */
-  transition: 0.3s ease;
-}
+    /* Disclaimer + Share button */
+    .disclaimer-section {
+      text-align: center;
+      margin-top: 20px;
+    }
 
-.share-btn:hover {
-  background: linear-gradient(90deg, #43e97b, #38f9d7);
-  transform: translateY(-2px);
-}
+    .share-btn {
+      background: linear-gradient(90deg, #4facfe, #00f2fe);
+      color: white;
+      font-size: 16px;
+      font-weight: 500;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-bottom: 15px;
+      transition: 0.3s ease;
+    }
 
-/* Disclaimer Box */
-.disclaimer {
-  background: #fffbea;
-  border: 1px solid #ffe58f;
-  color: #333;
-  font-size: 14px;
-  line-height: 1.5;
-  padding: 12px 18px;
-  border-radius: 8px;
-  max-width: 900px;
-  margin: 0 auto; /* centers horizontally */
-}
+    .share-btn:hover {
+      background: linear-gradient(90deg, #43e97b, #38f9d7);
+      transform: translateY(-2px);
+    }
 
+    .disclaimer {
+      background: #fffbea;
+      border: 1px solid #ffe58f;
+      color: #333;
+      font-size: 14px;
+      line-height: 1.5;
+      padding: 12px 18px;
+      border-radius: 8px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
   </style>
 </head>
 <body>
-  <a href="form.html" style="text-decoration:none; color:#333;">← Back to Form</a>
+
+  <a href="Code_arena3.html" style="text-decoration:none; color:#333;">← Back to Analysis</a>
 
   <h1>X-ray Analysis</h1>
   <p class="subtitle">AI-powered medical imaging analysis</p>
@@ -154,18 +153,18 @@
   <!-- Grid Layout -->
   <div class="grid">
     <!-- Patient Information -->
-    <div class="card">
+    <div class="card" id="patientInfo">
       <h2>👤 Patient Information</h2>
-      <p><strong>Name:</strong> John Doe</p>
-      <p><strong>Age:</strong> 8 years</p>
-      <p><strong>Body Part:</strong> Skull</p>
-      <p><strong>Initial Diagnosis:</strong> Example note</p>
+      <p><strong>Name:</strong> Loading...</p>
+      <p><strong>Age:</strong> Loading...</p>
+      <p><strong>Body Part:</strong> Loading...</p>
+      <p><strong>Initial Diagnosis:</strong> Loading...</p>
     </div>
 
     <!-- X-ray Image -->
     <div class="card">
       <h2>🖼️ X-ray Image</h2>
-      <img id="xrayImage" src="pelvis.jpg" alt="X-ray Image">
+      <img id="xrayImage" src="" alt="X-ray Image">
       <button class="btn btn-outline" onclick="downloadImage()">⬇ Download Image</button>
     </div>
 
@@ -200,60 +199,89 @@
     </div>
   </div>
 
-
-
-  <!-- Important Notice -->
+  <!-- Important Notice + Share -->
   <div class="disclaimer-section">
-  <!-- Share Report Button -->
-  <button class="share-btn" onclick="shareReport()">📤 Share Report</button>
-
-  <!-- Important Note -->
-  <div class="disclaimer">
-    <strong>Important:</strong> This AI analysis is for reference only and should not replace professional medical diagnosis. 
-    Always consult with a qualified radiologist or physician for final interpretation.
+    <button class="share-btn" onclick="shareReport()">📤 Share Report</button>
+    <div class="disclaimer">
+      <strong>Important:</strong> This AI analysis is for reference only and should not replace professional medical diagnosis. 
+      Always consult with a qualified radiologist or physician for final interpretation.
+    </div>
   </div>
-</div>
-
 
 <script>
-async function shareReport() {
-  // Generate PDF first
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
+  // Load patient info & X-ray from localStorage
+  window.onload = () => {
+    const name = localStorage.getItem("patientName") || "N/A";
+    const age = localStorage.getItem("patientAge") || "N/A";
+    const bodyPart = localStorage.getItem("patientBodyPart") || "N/A";
+    const diagnosis = localStorage.getItem("patientDiagnosis") || "N/A";
+    const savedImage = localStorage.getItem("xrayImage");
 
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(16);
-  doc.text("X-ray Analysis Report", 20, 20);
+    document.getElementById("patientInfo").innerHTML = `
+      <h2>👤 Patient Information</h2>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Age:</strong> ${age}</p>
+      <p><strong>Body Part:</strong> ${bodyPart}</p>
+      <p><strong>Initial Diagnosis:</strong> ${diagnosis}</p>
+    `;
 
-  doc.setFontSize(12);
-  doc.setFont("helvetica", "normal");
-  doc.text("Patient: John Doe", 20, 40);
-  doc.text("Age: 8 years", 20, 50);
-  doc.text("Body Part: Skull", 20, 60);
-  doc.text("Findings: No acute fractures detected", 20, 80);
-
-  // Get PDF as blob
-  const pdfBlob = doc.output("blob");
-
-  if (navigator.canShare && navigator.canShare({ files: [new File([pdfBlob], "Xray_Report.pdf", { type: "application/pdf" })] })) {
-    const file = new File([pdfBlob], "Xray_Report.pdf", { type: "application/pdf" });
-
-    try {
-      await navigator.share({
-        title: "X-ray Analysis Report",
-        text: "Here is the patient’s X-ray analysis report.",
-        files: [file]
-      });
-      console.log("Report shared successfully!");
-    } catch (err) {
-      console.error("Share failed:", err.message);
+    if (savedImage) {
+      document.getElementById("xrayImage").src = savedImage;
     }
-  } else {
-    alert("Sharing not supported on this device. The PDF will be downloaded instead.");
-    doc.save("Xray_Report.pdf");
+  };
+
+  // Download Image
+  function downloadImage() {
+    const img = document.getElementById("xrayImage");
+    if (!img.src) return alert("No image available");
+    const link = document.createElement("a");
+    link.href = img.src;
+    link.download = "Xray_Image.jpg";
+    link.click();
   }
-}
+
+  // Share Report
+  async function shareReport() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    const name = localStorage.getItem("patientName") || "N/A";
+    const age = localStorage.getItem("patientAge") || "N/A";
+    const bodyPart = localStorage.getItem("patientBodyPart") || "N/A";
+    const diagnosis = localStorage.getItem("patientDiagnosis") || "N/A";
+
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(16);
+    doc.text("X-ray Analysis Report", 20, 20);
+
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
+    doc.text("Patient: " + name, 20, 40);
+    doc.text("Age: " + age, 20, 50);
+    doc.text("Body Part: " + bodyPart, 20, 60);
+    doc.text("Diagnosis: " + diagnosis, 20, 70);
+    doc.text("Key Findings: No acute fractures detected", 20, 90);
+
+    const pdfBlob = doc.output("blob");
+
+    if (navigator.canShare && navigator.canShare({ files: [new File([pdfBlob], "Xray_Report.pdf", { type: "application/pdf" })] })) {
+      const file = new File([pdfBlob], "Xray_Report.pdf", { type: "application/pdf" });
+      try {
+        await navigator.share({
+          title: "X-ray Analysis Report",
+          text: "Here is the patient’s X-ray analysis report.",
+          files: [file]
+        });
+      } catch (err) {
+        console.error("Share failed:", err.message);
+      }
+    } else {
+      alert("Sharing not supported on this device. The PDF will be downloaded instead.");
+      doc.save("Xray_Report.pdf");
+    }
+  }
 </script>
 
 </body>
 </html>
+

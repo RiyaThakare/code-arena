@@ -5,6 +5,8 @@ from werkzeug.utils import secure_filename
 from utils.yolov8_inference import run_yolov8
 import sqlite3
 from datetime import datetime
+from health_advice import generate_precautions
+
 
 app = Flask(__name__)
 CORS(app)  # enable cross-origin requests for frontend JS
@@ -75,6 +77,30 @@ def analyze(patient_id):
     # Run YOLO inference
     annotated_file, diagnosis = run_yolov8(xray_path, app.config['UPLOAD_FOLDER'])
 
+# Run YOLO inference
+annotated_file, diagnosis = run_yolov8(xray_path, app.config['UPLOAD_FOLDER'])
+
+# ✅ Generate precautions
+from health_advice import generate_precautions
+diagnosis_list = [d.strip() for d in diagnosis.split(",")]
+precautions = generate_precautions(diagnosis_list)
+
+# Update DB with annotated image
+conn = sqlite3.connect(DB_PATH)
+c = conn.cursor()
+c.execute("UPDATE patients SET annotated_file=? WHERE id=?", (annotated_file, patient_id))
+conn.commit()
+conn.close()
+
+# Return response with diagnosis + precautions
+return jsonify({
+    "annotated_file": annotated_file,
+    "diagnosis": diagnosis_list,
+    "precautions": precautions
+})
+
+
+
     # Update DB with annotated image
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
@@ -94,3 +120,5 @@ def download(filename):
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+
